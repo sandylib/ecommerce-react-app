@@ -7,11 +7,10 @@ import AppBar from  '../../components/AppBar/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../../components/Toolbar/Toolbar';
 
 import {useLocation, useHistory} from 'react-router-dom';
-// import { signOutUrl } from '../../config/url';
+import { signOutUrl } from '../../config/url';
 import request from '../../utils/request';
-// import {CURRENT_USER} from '../../constants/applicationConstants'
+import {CURRENT_USER} from '../../constants/applicationConstants'
 
-const CURRENT_USER = 'CURRENT_USER';
 
 const styles = (theme) => ({
   title: {
@@ -52,7 +51,7 @@ function AppAppBar(props) {
       const currentUserStr = localStorage.getItem(CURRENT_USER);
       if(currentUserStr) {
         const currentUserData  = JSON.parse(currentUserStr);
-        const resp = await request('signOutUrl', {
+        const resp = await request(signOutUrl, {
           method: 'POST',
           body: JSON.stringify(currentUserData.currentUser)
         })
