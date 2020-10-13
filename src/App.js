@@ -1,11 +1,13 @@
 import React from 'react';
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from './theme'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import  SignIn from './views/SignIn/SignIn';
 import SignUp from './views/SignUp/SignUp';
 import MyProfile from './views/MyProfile/MyProfile';
 import Zodiac from './views/Zodiac/Zodiac';
 import AppAppBar  from './views/AppAppBar/AppAppBar';
-
 import NotFound from './views/NotFound/NotFound';
 
 import { AuthenticationManger } from './components/Authentication/Authentication';
@@ -13,6 +15,8 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 export default function App() {
   return (
+    <ThemeProvider theme={theme}>
+    <CssBaseline/>
     <BrowserRouter>
       <AuthenticationManger>
       <AppAppBar />
@@ -28,5 +32,6 @@ export default function App() {
       </AuthenticationManger>
 
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
