@@ -14,8 +14,8 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 export default function App() {
   return (
     <BrowserRouter>
-     <AppAppBar />
       <AuthenticationManger>
+      <AppAppBar />
       
       <Switch>
         <PrivateRoute exact permissions={['admin']}  path="/"  component={MyProfile} />
@@ -24,7 +24,6 @@ export default function App() {
         <Route exact path="/signup"  component={SignUp} />
         <Route path="/*"  component={NotFound} />
       </Switch>
-   
 
       </AuthenticationManger>
 

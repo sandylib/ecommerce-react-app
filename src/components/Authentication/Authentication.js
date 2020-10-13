@@ -4,12 +4,12 @@ import { CURRENT_USER } from '../../constants/applicationConstants'
 
 import {getInitAuthData} from '../../utils/help';
 
-import { authUrl } from '../../config/url';
+import { authUrl, signOutUrl } from '../../config/url';
 import request from '../../utils/request';
 
 const initialAuthData = getInitAuthData();
 
-const AuthenticationCtx = createContext({ isAuthenticated: false, token: null, permissions: ['anonymous'] });
+const AuthenticationCtx = createContext({...initialAuthData });
 
 export class AuthenticationManger extends React.Component {
   constructor(props) {
@@ -49,9 +49,29 @@ export class AuthenticationManger extends React.Component {
 
   };
 
+  logout = async () => {
+    try {
+      const currentUserStr = localStorage.getItem(CURRENT_USER);
+     if(currentUserStr) {
+      const currentUserData  = JSON.parse(currentUserStr);
+      const resp = await request(signOutUrl, {
+        method: 'POST',
+        body: JSON.stringify(currentUserData.currentUser)
+      })
+      localStorage.removeItem(CURRENT_USER);
+     }
+
+     return true;
+      
+    } catch (error) {
+      return false;
+    }
+
+  }
+
 
   render = () => (
-    <AuthenticationCtx.Provider value={{ ...this.state, authenticate: this.authenticate}}>
+    <AuthenticationCtx.Provider value={{ ...this.state, authenticate: this.authenticate, logout : this.logout}}>
       {this.props.children}
     </AuthenticationCtx.Provider>
   );
@@ -61,8 +81,8 @@ export class AuthenticationManger extends React.Component {
 
 export const Auth = ({ children }) => (
   <AuthenticationCtx.Consumer>
-    {({ isAuthenticated, authenticate, token, permissions = [] }) => {
-      return children({ isAuthenticated, authenticate, token, permissions });
+    {({ isAuthenticated, authenticate, token, permissions = [], logout }) => {
+      return children({ isAuthenticated, authenticate, token, permissions, logout });
     }}
   </AuthenticationCtx.Consumer>
 );
@@ -81,13 +101,14 @@ export const Guard = ({ allowed = [], children }) => (
 
 export const withAuth = Component => props => (
   <Auth>
-    {({ isAuthenticated, authenticate, token, permissions = [] }) => (
+    {({ isAuthenticated, authenticate, token, permissions = [], logout }) => (
       <Component
         {...props}
         isAuthenticated={isAuthenticated}
         authenticate={authenticate}
         token={token}
         permissions={permissions}
+        logout={logout}
       />
     )}
   </Auth>
