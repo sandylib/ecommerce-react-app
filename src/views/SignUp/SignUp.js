@@ -11,7 +11,6 @@ import { withAuth } from '../../components/Authentication/Authentication'
 import FormFeedback from '../../form/FormFeedback';
 import request from '../../utils/request';
 import { registUrl } from '../../config/url';
-import {CURRENT_USER} from '../../constants/applicationConstants'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -98,6 +97,7 @@ function SignUp({authenticate, isAuthenticated}) {
         method: 'POST',
         body: JSON.stringify({...validCurrentUser})
       });
+     
    
       setSubmitting(false);
  
@@ -140,6 +140,7 @@ function SignUp({authenticate, isAuthenticated}) {
                 fullWidth
                 disabled={submitting}
                 label="Email"
+                id="Email"
                 margin="normal"
                 name="email"
                 error={errors.email}
@@ -151,6 +152,7 @@ function SignUp({authenticate, isAuthenticated}) {
                 fullWidth
                 disabled={submitting}
                 label="Name"
+                id="Name"
                 margin="normal"
                 name="name"
                 error={errors.name}
@@ -163,6 +165,7 @@ function SignUp({authenticate, isAuthenticated}) {
                 name="password"
                 autoComplete="current-password"
                 label="Password"
+                id="Password"
                 type="password"
                 margin="normal"
                 error={errors.password}
@@ -176,6 +179,7 @@ function SignUp({authenticate, isAuthenticated}) {
                 name="passwordConfirmation"
                 autoComplete="current-passwordConfirmation"
                 label="Password Confirmation"
+                id="Password Confirmation"
                 type="password"
                 margin="normal"
                 error={errors.passwordConfirmation}
@@ -187,6 +191,7 @@ function SignUp({authenticate, isAuthenticated}) {
                       {submitError}
                     </FormFeedback>}
               <FormButton
+              data-testid="submit-button"
                 className={classes.button}
                 disabled={submitting}
                 color="secondary"
