@@ -1,6 +1,7 @@
 const request = async (url, options) => {
     const headers = {
-      credentials: 'same-origin',
+      // Set-Cookie: ; httpOnly
+      credentials: 'same-origin',//cors
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     };
   

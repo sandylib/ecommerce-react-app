@@ -44,6 +44,7 @@ function SignUp({authenticate, isAuthenticated}) {
   const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: "/" } };
+  const [email, setEmail] = React.useState('');
   const [values, setValues] = React.useState(deaultValues);
   const [errors, setErrors] = React.useState(deaultErrors);
   const [submitting, setSubmitting] = React.useState(false);
@@ -145,7 +146,7 @@ function SignUp({authenticate, isAuthenticated}) {
                 name="email"
                 error={errors.email}
                 value={values.email}
-                onChange={handleChange}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <RFTextField
                 autoComplete="name"
